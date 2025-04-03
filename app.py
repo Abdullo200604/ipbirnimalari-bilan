@@ -13,3 +13,6 @@ class FrameWorkApp:
         res = Response()
         res.text = f"Salom siz {user_agent} foydalanayabsan"
         return res
+
+
+
