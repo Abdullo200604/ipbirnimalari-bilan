@@ -1,7 +1,12 @@
+from http.client import responses
+
 from flask import Flask, send_file, abort
-
+import json
 app = Flask(__name__)
-
+def load_users():
+    with open("users.json", "r") as file:
+        users = json.load(file)
+        return users
 @app.route("/home")
 def home():
     return "<h2>Salom! Siz hozir bosh sahifadasiz.</h2>"
@@ -12,7 +17,9 @@ def about():
 
 @app.route("/u/<id>")
 def get_info(id):
-    return f"<h2>Siz {id} IDli foydalanuvchisiz</h2>"
+    users = load_users()
+    user = users.get(id, "Bunday user yo'q")
+    responses.text = json.dumps(user)
 @app.route("/")
 def index():
     return """
