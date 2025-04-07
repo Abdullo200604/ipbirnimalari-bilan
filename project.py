@@ -4,18 +4,31 @@ app = Flask(__name__)
 
 @app.route("/home")
 def home():
-    matn = "<h2>Salom! Siz hozir bosh sahifadasiz.</h2>"
-    return matn
+    return "<h2>Salom! Siz hozir bosh sahifadasiz.</h2>"
 
 @app.route("/about")
 def about():
-    matn_haqida = "<h2>Bu sahifa 'waitress' mavzusi uchun mahalliy sahifa hisoblanadi.</h2>"
-    return matn_haqida
+    return "<h2>Bu sahifa 'waitress' mavzusi uchun mahalliy sahifa hisoblanadi.</h2>"
+
+@app.route("/u/<id>")
+def get_info(id):
+    return f"<h2>Siz {id} IDli foydalanuvchisiz</h2>"
+@app.route("/")
+def index():
+    return """
+    <h1>Asosiy Sahifa</h1>
+    <ul style="font-size: 20px;">
+        <li><a href="/home">🏠 Home</a></li>
+        <li><a href="/about">ℹ️ About</a></li>
+        <li><a href="/bobur">👤 Bobur</a></li>
+        <li><a href="/saloh">👤 Saloh</a></li>
+        <li><a href="/u/123">🆔 Foydalanuvchi ID (misol: 123)</a></li>
+    </ul>
+    """
 
 @app.route("/bobur")
 def bobur():
     rasm_html = '<img src="/bobur/image" alt="Boburning rasmi" width="300"><br>'
-
     bobur_haqida = """
         <h2>Inomov Bobur</h2>
         <p>
@@ -41,7 +54,6 @@ def bobur_image():
 @app.route("/saloh")
 def saloh():
     rasm_html = '<img src="/saloh/image" alt="Salohiddinning rasmi" width="300"><br>'
-
     saloh_haqida = """
     <h2>Abdullayev Salohiddin</h2>
     <p>
