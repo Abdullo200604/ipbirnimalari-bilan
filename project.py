@@ -18,8 +18,20 @@ def about():
 @app.route("/u/<id>")
 def get_info(id):
     users = load_users()
-    user = users.get(id, "Bunday user yo'q")
-    responses.text = json.dumps(user)
+    user = users.get(id)
+    if user:
+        return f"""
+        <h2>Foydalanuvchi Ma'lumotlari</h2>
+        <p>
+            Ism: {user['ism']}<br>
+            Yoshi: {user['yoshi']}<br>
+            Roli: {user['rol']}
+        </p>
+        """
+    else:
+        return "<h3>Bunday foydalanuvchi topilmadi.</h3>", 404
+
+
 @app.route("/")
 def index():
     return """
@@ -29,6 +41,7 @@ def index():
         <li><a href="/about">ℹ️ About</a></li>
         <li><a href="/bobur">👤 Bobur</a></li>
         <li><a href="/saloh">👤 Saloh</a></li>
+        <li><a href="/admin/1">👨‍💻 get_admin</a></li>   
         <li><a href="/u/123">🆔 Foydalanuvchi ID (misol: 123)</a></li>
     </ul>
     """
@@ -47,6 +60,7 @@ def get_admin(id):
         """
     else:
         return "<h3>Bunday ID bilan admin topilmadi.</h3>", 404
+
 
 @app.route("/bobur")
 def bobur():

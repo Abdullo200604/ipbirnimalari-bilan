@@ -6,10 +6,12 @@
   },
   "2": {
     "ism": "Saloh",
-    "yoshi": 16
+    "yoshi": 16,
+    "rol": "user"
   },
   "3": {
     "ism": "Bobur",
-    "yoshi": 17
+    "yoshi": 17,
+    "rol": "user"
   }
 }
