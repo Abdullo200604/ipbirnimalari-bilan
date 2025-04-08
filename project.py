@@ -32,6 +32,21 @@ def index():
         <li><a href="/u/123">🆔 Foydalanuvchi ID (misol: 123)</a></li>
     </ul>
     """
+@app.route("/admin/<id>")
+def get_admin(id):
+    users = load_users()
+    user = users.get(id)
+    if user and user.get("rol") == "admin":
+        return f"""
+        <h2>Admin Ma'lumotlari</h2>
+        <p>
+            Ism: {user['ism']}<br>
+            Yoshi: {user['yoshi']}<br>
+            Roli: {user['rol']}
+        </p>
+        """
+    else:
+        return "<h3>Bunday ID bilan admin topilmadi.</h3>", 404
 
 @app.route("/bobur")
 def bobur():
