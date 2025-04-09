@@ -2,18 +2,25 @@ from http.client import responses
 
 from flask import Flask, send_file, abort
 import json
+
 app = Flask(__name__)
+
+
 def load_users():
     with open("users.json", "r") as file:
         users = json.load(file)
         return users
+
+
 @app.route("/home")
 def home():
     return "<h2>Salom! Siz hozir bosh sahifadasiz.</h2>"
 
+
 @app.route("/about")
 def about():
     return "<h2>Bu sahifa 'waitress' mavzusi uchun mahalliy sahifa hisoblanadi.</h2>"
+
 
 @app.route("/u/<id>")
 def get_info(id):
@@ -45,6 +52,8 @@ def index():
         <li><a href="/u/123">🆔 Foydalanuvchi ID (misol: 123)</a></li>
     </ul>
     """
+
+
 @app.route("/admin/<id>")
 def get_admin(id):
     users = load_users()
@@ -79,6 +88,7 @@ def bobur():
     """
     return rasm_html + bobur_haqida
 
+
 @app.route("/bobur/image")
 def bobur_image():
     try:
@@ -86,6 +96,7 @@ def bobur_image():
         return send_file(rasm_manzili, mimetype="image/jpg")
     except FileNotFoundError:
         abort(404)
+
 
 @app.route("/saloh")
 def saloh():
@@ -103,6 +114,7 @@ def saloh():
     """
     return rasm_html + saloh_haqida
 
+
 @app.route("/saloh/image")
 def saloh_image():
     try:
@@ -110,6 +122,7 @@ def saloh_image():
         return send_file(rasm_manzili, mimetype="image/jpg")
     except FileNotFoundError:
         abort(404)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
