@@ -1,7 +1,6 @@
-from http.client import responses
+import json
 
 from flask import Flask, send_file, abort
-import json
 
 app = Flask(__name__)
 
@@ -53,6 +52,11 @@ def index():
     </ul>
     """
 
+@app.route("/admin")
+def admin_menu():
+    return f"""
+    <h2>Admin Ma'lumotlari</h2>
+    <h3>Siz admin  bosh panelidasiz</h3>"""
 
 @app.route("/admin/<id>")
 def get_admin(id):
