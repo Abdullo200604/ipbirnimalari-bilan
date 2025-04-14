@@ -1,17 +1,20 @@
 {
-  "1": {
-    "ism": "zidan",
-    "yoshi": 17,
-    "rol": "admin"
-  },
-  "2": {
-    "ism": "Saloh",
-    "yoshi": 16,
-    "rol": "user"
-  },
-  "3": {
-    "ism": "Bobur",
-    "yoshi": 17,
-    "rol": "user"
-  }
+    "1": {
+        "ism": "zidan",
+        "yoshi": 17,
+        "rol": "admin",
+        "view": 5
+    },
+    "2": {
+        "ism": "Saloh",
+        "yoshi": 16,
+        "rol": "user",
+        "view": 0
+    },
+    "3": {
+        "ism": "Bobur",
+        "yoshi": 17,
+        "rol": "user",
+        "view": 0
+    }
 }

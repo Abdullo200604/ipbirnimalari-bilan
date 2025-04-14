@@ -1,5 +1,5 @@
 import json
-
+import os
 from flask import Flask, send_file, abort
 
 app = Flask(__name__)
@@ -9,33 +9,70 @@ def load_users():
     with open("users.json", "r") as file:
         users = json.load(file)
         return users
+def load_views():
+    with open("view.json", "r") as file:
+        return json.load(file)
 
+def save_views(data):
+    with open("view.json", "w") as file:
+        json.dump(data, file, indent=4)
 
 @app.route("/home")
 def home():
-    return "<h2>Salom! Siz hozir bosh sahifadasiz.</h2>"
+    views = load_views()
+    views["home"] += 1
+    save_views(views)
+    return f"<h2>Home sahifasi: {views['home']} ta tashrif</h2>"
 
 
 @app.route("/about")
 def about():
-    return "<h2>Bu sahifa 'waitress' mavzusi uchun mahalliy sahifa hisoblanadi.</h2>"
+    views = load_views()
+    views["about"] += 1
+    save_views(views)
+    return f"<h2>About sahifasi: {views['about']} ta tashrif</h2>"
 
+USERS_FILE = 'users.json'
 
-@app.route("/u/<id>")
-def get_info(id):
-    users = load_users()
-    user = users.get(id)
-    if user:
-        return f"""
-        <h2>Foydalanuvchi Ma'lumotlari</h2>
-        <p>
-            Ism: {user['ism']}<br>
-            Yoshi: {user['yoshi']}<br>
-            Roli: {user['rol']}
-        </p>
-        """
+def load_users():
+    if not os.path.exists(USERS_FILE):
+        return {}
+    with open(USERS_FILE, 'r') as f:
+        return json.load(f)
+
+def save_users(data):
+    with open(USERS_FILE, 'w') as f:
+        json.dump(data, f, indent=4)
+
+@app.route('/u/<int:user_id>')
+def user_page(user_id):
+    views = load_views()
+    users = load_users()  # users.json faylni o‘qiydi
+
+    user_id_str = str(user_id)
+
+    # u_totalni oshiramiz (view.json)
+    views['u_total'] += 1
+    if user_id_str not in views['u_ids']:
+        views['u_ids'][user_id_str] = 0
+    views['u_ids'][user_id_str] += 1
+
+    # foydalanuvchi mavjud bo‘lsa, view ni oshiramiz (users.json)
+    if user_id_str in users:
+        users[user_id_str]['view'] += 1
+        save_users(users)
     else:
-        return "<h3>Bunday foydalanuvchi topilmadi.</h3>", 404
+        return "Bunday foydalanuvchi topilmadi", 404
+
+    save_views(views)
+
+    user = users[user_id_str]
+    return f"""
+    Ism: {user['ism']}<br>
+    Yoshi: {user['yoshi']}<br>
+    Roli: {user['rol']}<br>
+    Ko‘rilganlar soni: {user['view']}
+    """
 
 
 @app.route("/")
